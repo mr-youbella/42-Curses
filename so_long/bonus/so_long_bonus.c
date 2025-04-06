@@ -6,7 +6,7 @@
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 20:48:20 by youbella          #+#    #+#             */
-/*   Updated: 2025/04/05 22:18:22 by youbella         ###   ########.fr       */
+/*   Updated: 2025/04/06 19:18:40 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,10 @@ static char	**ft_read_map(char *path_file, char	*line, char	*join_line)
 	return (free(join_line), close(fd), map);
 }
 
-void	f(void)
-{
-	system("leaks so_long");
-}
-
 int	main(int argc, char **argv)
 {
 	char	**map;
 
-	atexit(f);
 	if (argc == 2)
 	{
 		if (!ft_strncmp(argv[1] + (ft_strlen(argv[1]) - 4), ".ber", 4))

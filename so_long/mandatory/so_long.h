@@ -6,7 +6,7 @@
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 17:43:00 by youbella          #+#    #+#             */
-/*   Updated: 2025/04/05 22:06:18 by youbella         ###   ########.fr       */
+/*   Updated: 2025/04/06 18:04:30 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ int		key_press(int keycode, t_data *data);
 void	draw_map(t_data *data, int width, int height);
 void	file_image(t_data *data);
 int		check_map_elements(char **map, int *e, int *p, int c);
+int		is_path_valid(char **map);
 
 #endif

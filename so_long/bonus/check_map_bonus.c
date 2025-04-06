@@ -6,7 +6,7 @@
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 09:57:47 by youbella          #+#    #+#             */
-/*   Updated: 2025/04/05 22:26:49 by youbella         ###   ########.fr       */
+/*   Updated: 2025/04/06 18:28:50 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ char	**check_map(char **map)
 	count_c = 0;
 	check_map_struct(map);
 	check_map_border(map);
+	is_path_valid(map);
 	count_c = check_map_elements(map, &count_e, &count_p, count_c);
 	check_map_elements_z(map);
 	if (count_c < 1)
