@@ -5,141 +5,62 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/18 18:20:13 by youbella          #+#    #+#             */
-/*   Updated: 2025/03/27 00:48:15 by youbella         ###   ########.fr       */
+/*   Created: 2024/03/07 20:48:20 by youbella          #+#    #+#             */
+/*   Updated: 2025/04/05 22:18:13 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int close_win(t_data *data)
+static char	**ft_read_map(char *path_file, char	*line, char	*join_line)
 {
-	if (data->wall)
-    	mlx_destroy_image(data->mlx, data->wall);
-	if (data->steve_up)
-    	mlx_destroy_image(data->mlx, data->steve_up);
-	if (data->steve_down)
-    	mlx_destroy_image(data->mlx, data->steve_down);
-	if (data->steve_left)
-    	mlx_destroy_image(data->mlx, data->steve_left);
-	if (data->steve_right)
-    	mlx_destroy_image(data->mlx, data->steve_right);
-	if (data->xp)
-    	mlx_destroy_image(data->mlx, data->xp);
-	if (data->door)
-    	mlx_destroy_image(data->mlx, data->door);
-	if (data->open_door)
-    	mlx_destroy_image(data->mlx, data->open_door);
-	if (data->background)
-    	mlx_destroy_image(data->mlx, data->background);
-    free_map(data->map);
-    mlx_destroy_window(data->mlx, data->win);
-    exit(0);
-    return (0);
-}
+	char	**map;
+	int		fd;
 
-int	check_collision(t_data *data, int new_x, int new_y)
-{
-	int	grid_y;
-	int	grid_x;
-
-	grid_y = new_y / 64;
-	grid_x = new_x / 64;
-	if (data->xp_count == data->xp_total)
-		data->door = data->open_door;
-	if (data->map[grid_y][grid_x] == '1')
-		return (0);
-	else if (data->map[grid_y][grid_x] == 'C')
+	fd = open(path_file, O_RDONLY, 0777);
+	if (fd == -1)
+		ft_putstr_fd("Error: file not open!\n", 2);
+	line = get_next_line(fd);
+	while (line)
 	{
-		data->map[grid_y][grid_x] = '0';
-		data->xp_count++;
-	}
-	else if (data->map[grid_y][grid_x] == 'E')
-	{
-		if (data->xp_count == data->xp_total)
+		if (ft_strncmp(line, "\n", 1) == 0)
 		{
-			ft_putstr_fd("You WIN!\n", 1);
-			exit(0);
+			close(fd);
+			ft_putstr_fd("Error: Empty line!\n", 2);
 		}
-		return (0);
+		join_line = ft_strjoin(join_line, line);
+		free(line);
+		line = get_next_line(fd);
 	}
-	return (1);
-}
-
-int	move_steve(t_data *data, char move, int sign, char pos)
-{
-	int	move_possible;
-
-	data->pos = pos;
-	if (move == 'x')
-		move_possible = check_collision(data, \
-		data->move_x + sign, data->move_y);
-	else
-		move_possible = check_collision(data, \
-		data->move_x, data->move_y + sign);
-	if (move_possible)
+	map = ft_split(join_line, '\n');
+	if (!map)
 	{
-		data->move_count++;
-		ft_putnbr_fd(data->move_count, 1);
-		ft_putchar_fd('\n', 1);
-		return (64);
+		close(fd);
+		ft_putstr_fd("Map no found\n", 2);
 	}
-	return (0);
+	return (free(join_line), close(fd), map);
 }
 
-int	key_press(int keycode, t_data *data)
-{
-	if (keycode == KEY_ESC)
-		close_win(data);
-	else if (keycode == KEY_A || keycode == KEY_RL)
-		data->move_x -= move_steve(data, 'x', -64, 'l');
-	else if (keycode == KEY_D || keycode == KEY_RR)
-		data->move_x += move_steve(data, 'x', 64, 'r');
-	else if (keycode == KEY_W || keycode == KEY_RU)
-		data->move_y -= move_steve(data, 'y', -64, 'u');
-	else if (keycode == KEY_S || keycode == KEY_RD)
-		data->move_y += move_steve(data, 'y', 64, 'd');
-	check_collision(data, data->move_x, data->move_y);
-	mlx_clear_window(data->mlx, data->win);
-	draw_map(data);
-	return (1);
-}
-
-void f()
+void	f(void)
 {
 	system("leaks so_long");
 }
 
 int	main(int argc, char **argv)
 {
-	t_data	data;
-	int		height;
+	char	**map;
 
 	atexit(f);
-	data.mlx = mlx_init();
-	height = 0;
-	data.xp_count = 0;
-	data.move_count = 0;
-	data.move_x = -1;
-	data.move_y = -1;
-	data.pos = 'd';
-	data.map = check_map(argv[1]);
-	if (!data.map || argc != 2 || ft_strncmp(argv[1] + (ft_strlen(argv[1]) - 4), ".ber", 4))
+	if (argc == 2)
 	{
-		free(data.mlx);
-		if (data.map)
-            free_map(data.map);
-		return (1);
+		if (!ft_strncmp(argv[1] + (ft_strlen(argv[1]) - 4), ".ber", 4))
+		{
+			map = ft_read_map(argv[1], NULL, NULL);
+			check_map(map);
+		}
+		else
+			ft_putstr_fd("Problem name!\n", 2);
 	}
-	if (!file_image(&data))
-		return (ft_putstr_fd("INVALID IMAGE!\n", 2), 1);
-	while (data.map[height] != NULL)
-		height++;
-	data.win = mlx_new_window(data.mlx, ft_strlen(data.map[0]) * 64, \
-							height * 64, "minecraft 2d");
-	data.xp_total = count_c(data.map);
-	draw_map(&data);
-	mlx_hook(data.win, 2, 1L << 0, key_press, &data);
-	mlx_hook(data.win, 17, 0, close_win, &data);
-	mlx_loop(data.mlx);
+	else
+		ft_putstr_fd("arg != 2\n", 2);
 }

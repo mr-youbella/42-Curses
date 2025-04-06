@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 11:20:41 by youbella          #+#    #+#             */
-/*   Updated: 2025/03/20 02:00:41 by youbella         ###   ########.fr       */
+/*   Created: 2024/03/11 19:28:36 by youbella          #+#    #+#             */
+/*   Updated: 2025/04/03 17:24:56 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "so_long_bonus.h"
 
 static char	*ft_line(char *str, int fd)
 {

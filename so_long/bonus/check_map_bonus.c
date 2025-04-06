@@ -5,50 +5,83 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/19 13:58:25 by youbella          #+#    #+#             */
-/*   Updated: 2025/03/25 21:39:30 by youbella         ###   ########.fr       */
+/*   Created: 2024/03/01 09:57:47 by youbella          #+#    #+#             */
+/*   Updated: 2025/04/05 22:26:49 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long_bonus.h"
 
-static char	**check_map_elements(char **map)
+static int	check_map_elements_z(char **map)
 {
 	int	i;
 	int	j;
-	int	count_p_e;
-	int	count_c;
-	int	count_z;
+	int	z;
 
 	i = 0;
-	count_p_e = 0;
-	count_c = 0;
-	count_z = 0;
-	while (map[i] != NULL)
+	z = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j] != '\0')
+		{
+			if (map[i][j] == 'Z')
+				z++;
+			j++;
+		}
+		i++;
+	}
+	if (z < 1)
+		ft_putstr_fd("Must 1(P) 1(E) >1(C,Z)\n", 2);
+	return (z);
+}
+
+int	check_map_elements(char **map, int *e, int *p, int c)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (map[i])
 	{
 		j = 0;
 		while (map[i][j] != '\0')
 		{
 			if (map[i][j] != 'P' && map[i][j] != 'E' && map[i][j] != '0' && \
 				map[i][j] != '1' && map[i][j] != 'C' && map[i][j] != 'Z')
-				return (ft_putstr_fd("ERROR\n", 2), NULL);
-			else if (map[i][j] == 'P' || map[i][j] == 'E')
-				count_p_e++;
+				return (ft_putstr_fd("just (01PECZ)\n", 2), 0);
+			if (map[i][j] == 'P')
+				(*p)++;
+			else if (map[i][j] == 'E')
+				(*e)++;
 			else if (map[i][j] == 'C')
-				count_c++;
-			else if (map[i][j] == 'Z')
-				count_z++;
+				c++;
 			j++;
 		}
 		i++;
 	}
-	if (count_p_e != 2 || count_c < 1 || count_z < 1)
-		return (ft_putstr_fd("ERROR: Map must contain \
-		1(P) 1(E) >1(C, Z)\n", 1), NULL);
-	return (map);
+	return (c);
 }
 
-static char	**check_map_border(char **map)
+static int	check_map_struct(char **map)
+{
+	int	i;
+	int	width;
+	int	len;
+
+	i = 0;
+	width = ft_strlen(map[0]);
+	while (map[i])
+	{
+		len = ft_strlen(map[i]);
+		if (len != width)
+			return (ft_putstr_fd("Unbalanced structure.\n", 2), 0);
+		i++;
+	}
+	return (1);
+}
+
+static int	check_map_border(char **map)
 {
 	int	i;
 	int	width;
@@ -62,85 +95,38 @@ static char	**check_map_border(char **map)
 	while (i < width)
 	{
 		if (map[0][i] != '1' || map[height - 1][i] != '1')
-			return (ft_putstr_fd("ERROR: Border is not closed!\n", 2), NULL);
+			return (ft_putstr_fd("ERROR: Border is not closed!\n", 2), 0);
 		i++;
 	}
 	i = 0;
 	while (i < height)
 	{
 		if (map[i][0] != '1' || map[i][width - 1] != '1')
-			return (ft_putstr_fd("ERROR: Border is not closed!\n", 2), NULL);
+			return (ft_putstr_fd("ERROR: Border is not closed!\n", 2), 0);
 		i++;
 	}
-	return (map);
+	return (1);
 }
 
-static char	**check_map_struct(char **map)
+char	**check_map(char **map)
 {
-	int	i;
-	int	width;
-	int	len;
+	int	count_e;
+	int	count_p;
+	int	count_c;
 
-	i = 0;
-	width = ft_strlen(map[0]);
-	while (map[i])
-	{
-		len = ft_strlen(map[i]);
-		if (len != width)
-			return (ft_putstr_fd("Unbalanced structure.\n", 2), NULL);
-		i++;
-	}
-	return (map);
-}
-
-int	count_c(char **map)
-{
-	int	i;
-	int	j;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (map[i])
-	{
-		j = 0;
-		while (map[i][j])
-		{
-			if (map[i][j] == 'C')
-				count++;
-			j++;
-		}
-		i++;
-	}
-	return (count);
-}
-
-char	**check_map(char *path_map)
-{
-	int		fd;
-	char	*line_map;
-	char	*line;
-	char	**map;
-	char	*temp;
-
-	fd = open(path_map, O_RDONLY, 0777);
-	if (fd < 0)
-		return (ft_putstr_fd("INVALID MAP\n", 2), NULL);
-	line_map = NULL;
-	line = get_next_line(fd);
-	while (line)
-	{
-		if (ft_strncmp(line, "\n", 1) == 0)
-			return (ft_putstr_fd("Error: Empty line!\n", 2), NULL);
-		temp = ft_strjoin(line_map, line);
-		line_map = temp;
-		line = get_next_line(fd);
-	}
-	map = ft_split(line_map, '\n');
-	if (!map)
-		return (ft_putstr_fd("ERROR in split!!\n", 2), NULL);
-	if (!check_map_border(map) || !check_map_elements(map) \
-		|| !check_map_struct(map))
-		return (NULL);
+	count_e = 0;
+	count_p = 0;
+	count_c = 0;
+	check_map_struct(map);
+	check_map_border(map);
+	count_c = check_map_elements(map, &count_e, &count_p, count_c);
+	check_map_elements_z(map);
+	if (count_c < 1)
+		ft_putstr_fd("Must 1(P) 1(E) >1(C,Z)\n", 2);
+	else if (count_p != 1)
+		ft_putstr_fd("Must 1(P) 1(E) >1(C,Z)\n", 2);
+	else if (count_e != 1)
+		ft_putstr_fd("Must 1(P) 1(E) >1(C,Z)\n", 2);
+	create_game(map, 0);
 	return (map);
 }
