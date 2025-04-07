@@ -6,7 +6,7 @@
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 17:43:00 by youbella          #+#    #+#             */
-/*   Updated: 2025/04/06 18:04:30 by youbella         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:57:18 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct data
 	char	pos;
 }	t_data;
 
-void	ft_putstr_fd(char *s, int fd);
+void	ft_putstr_fd(char *s, int fd, t_data *data);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putnbr_fd(int n, int fd);
@@ -69,7 +69,7 @@ char	**ft_split(char const *s, char c);
 char	**check_map(char **map);
 void	**free_map(char **arr);
 void	create_game(char **map, int hei);
-int		ft_exit(t_data *tmap);
+int		ft_exit(t_data *data, int fd);
 int		key_press(int keycode, t_data *data);
 void	draw_map(t_data *data, int width, int height);
 void	file_image(t_data *data);

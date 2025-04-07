@@ -6,7 +6,7 @@
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:10:16 by youbella          #+#    #+#             */
-/*   Updated: 2025/04/03 23:18:55 by youbella         ###   ########.fr       */
+/*   Updated: 2025/04/07 16:00:07 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,15 @@ void	**free_map(char **arr)
 	return (NULL);
 }
 
-void	put_check_image(void	*img, t_data *data, int wid, int hei)
+static void	put_check_image(void	*img, t_data *data, int wid, int hei)
 {
 	if (wid == -13374218)
 	{
 		if (!data->wall || !data->steve_up || !data->steve_down \
-			|| !data->steve_left || !data->steve_right || !data->xp || \
-			!data->door || !data->open_door || !data->background)
-			ft_putstr_fd("Img not found\n", 2);
+			|| !data->steve_left || !data->steve_right || !data->zombie \
+			|| !data->zombie2 || !data->xp || !data->door \
+			|| !data->open_door || !data->background)
+			ft_putstr_fd("Img not found\n", 2, data);
 	}
 	else
 		mlx_put_image_to_window(data->mlx, data->win, img, wid * 64, hei * 64);
@@ -68,7 +69,7 @@ void	file_image(t_data *data, int size)
 	put_check_image(NULL, data, -13374218, -13374218);
 }
 
-void	put_image_to_map(t_data *data, int width, int height)
+static void	put_image_to_map(t_data *data, int width, int height)
 {
 	if (data->map[height][width] == 'P')
 	{

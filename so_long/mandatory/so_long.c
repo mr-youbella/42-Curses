@@ -6,11 +6,19 @@
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 20:48:20 by youbella          #+#    #+#             */
-/*   Updated: 2025/04/06 19:18:28 by youbella         ###   ########.fr       */
+/*   Updated: 2025/04/07 17:29:47 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+static void	free_close(char	*join_line, char *line, int fd)
+{
+	close(fd);
+	if (line)
+		free(line);
+	free(join_line);
+}
 
 static char	**ft_read_map(char *path_file, char	*line, char	*join_line)
 {
@@ -19,14 +27,14 @@ static char	**ft_read_map(char *path_file, char	*line, char	*join_line)
 
 	fd = open(path_file, O_RDONLY, 0777);
 	if (fd == -1)
-		ft_putstr_fd("Error: file not open!\n", 2);
+		ft_putstr_fd("Error: file not open!\n", 2, NULL);
 	line = get_next_line(fd);
 	while (line)
 	{
 		if (ft_strncmp(line, "\n", 1) == 0)
 		{
-			close(fd);
-			ft_putstr_fd("Error: Empty line!\n", 2);
+			free_close(join_line, line, fd);
+			ft_putstr_fd("Error: Empty line!\n", 2, NULL);
 		}
 		join_line = ft_strjoin(join_line, line);
 		free(line);
@@ -35,17 +43,19 @@ static char	**ft_read_map(char *path_file, char	*line, char	*join_line)
 	map = ft_split(join_line, '\n');
 	if (!map)
 	{
-		close(fd);
-		ft_putstr_fd("Map no found\n", 2);
+		free_close(join_line, NULL, fd);
+		ft_putstr_fd("Map no found\n", 2, NULL);
 	}
-	return (free(join_line), close(fd), map);
+	return (free_close(join_line, NULL, fd), map);
 }
 
 int	main(int argc, char **argv)
 {
 	char	**map;
 
-	if (argc == 2)
+	if (argc != 2)
+		ft_putstr_fd("arg != 2\n", 2, NULL);
+	else
 	{
 		if (!ft_strncmp(argv[1] + (ft_strlen(argv[1]) - 4), ".ber", 4))
 		{
@@ -53,8 +63,6 @@ int	main(int argc, char **argv)
 			check_map(map);
 		}
 		else
-			ft_putstr_fd("Problem name!\n", 2);
+			ft_putstr_fd("Problem name!\n", 2, NULL);
 	}
-	else
-		ft_putstr_fd("arg != 2\n", 2);
 }

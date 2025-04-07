@@ -6,7 +6,7 @@
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 17:43:00 by youbella          #+#    #+#             */
-/*   Updated: 2025/04/06 18:28:36 by youbella         ###   ########.fr       */
+/*   Updated: 2025/04/07 16:00:30 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct data
 
 size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-void	ft_putstr_fd(char *s, int fd);
+void	ft_putstr_fd(char *s, int fd, t_data *data);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putchar_fd(char c, int fd);
 char	*ft_strdup(const char *s1);
@@ -78,7 +78,7 @@ void	create_game(char **map, int hei);
 void	draw_map(t_data *data, int width, int height);
 void	file_image(t_data *data, int size);
 void	print_moves_score(t_data *data);
-int		ft_exit(t_data *tmap);
+int		ft_exit(t_data *data, int fd);
 int		animation_loop(t_data *data);
 int		key_press(int keycode, t_data *data);
 int		check_map_elements(char **map, int *e, int *p, int c);

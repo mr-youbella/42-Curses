@@ -6,20 +6,28 @@
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 18:39:10 by youbella          #+#    #+#             */
-/*   Updated: 2025/04/05 19:50:00 by youbella         ###   ########.fr       */
+/*   Updated: 2025/04/07 17:16:05 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	ft_exit(t_data *data)
+int	ft_exit(t_data *data, int fd)
 {
-	free_map(data->map);
-	exit(0);
+	if (data)
+	{
+		if (data->win)
+			mlx_destroy_window(data->mlx, data->win);
+		if (data->map)
+			free_map(data->map);
+	}
+	if (fd == 1)
+		exit(0);
+	exit (1);
 	return (0);
 }
 
-int	check_collision(t_data *data, int new_x, int new_y)
+static int	check_collision(t_data *data, int new_x, int new_y)
 {
 	int	grid_y;
 	int	grid_x;
@@ -38,16 +46,13 @@ int	check_collision(t_data *data, int new_x, int new_y)
 	else if (data->map[grid_y][grid_x] == 'E')
 	{
 		if (data->xp_count == data->xp_total)
-		{
-			ft_putstr_fd("You WIN!\n", 1);
-			exit(0);
-		}
+			ft_putstr_fd("You WIN!\n", 1, data);
 		return (0);
 	}
 	return (1);
 }
 
-int	move_steve(t_data *data, char move, int sign, char pos)
+static int	move_steve(t_data *data, char move, int sign, char pos)
 {
 	int	move_possible;
 
@@ -71,7 +76,7 @@ int	move_steve(t_data *data, char move, int sign, char pos)
 int	key_press(int keycode, t_data *data)
 {
 	if (keycode == KEY_ESC)
-		ft_exit(data);
+		ft_exit(data, 1);
 	else if (keycode == KEY_A || keycode == KEY_RL)
 		data->move_x -= move_steve(data, 'x', -64, 'l');
 	else if (keycode == KEY_D || keycode == KEY_RR)
@@ -100,14 +105,14 @@ void	create_game(char **map, int hei)
 	data.map = map;
 	data.mlx = mlx_init();
 	if (!data.mlx)
-		(free_map(data.map), ft_putstr_fd("MLX not init!\n", 2));
+		(ft_putstr_fd("MLX not init!\n", 2, &data));
 	wid = ft_strlen(map[0]);
 	hei = 0;
 	while (map[hei])
 		hei++;
 	data.win = mlx_new_window(data.mlx, wid * 64, hei * 64, "Minecraft 2D");
 	if (!data.win)
-		(free_map(data.map), ft_putstr_fd("Win not open!\n", 2));
+		(ft_putstr_fd("Win not open!\n", 2, &data));
 	file_image(&data);
 	draw_map(&data, 0, 0);
 	mlx_hook(data.win, 2, 1L << 0, key_press, &data);

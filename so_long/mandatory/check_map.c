@@ -6,7 +6,7 @@
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 09:57:47 by youbella          #+#    #+#             */
-/*   Updated: 2025/04/06 18:14:33 by youbella         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:55:49 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_map_elements(char **map, int *e, int *p, int c)
 		{
 			if (map[i][j] != 'P' && map[i][j] != 'E' && map[i][j] != '0' && \
 				map[i][j] != '1' && map[i][j] != 'C')
-				return (ft_putstr_fd("just (01PEC)\n", 2), 0);
+				return (ft_putstr_fd("just (01PEC)\n", 2, NULL), 0);
 			if (map[i][j] == 'P')
 				(*p)++;
 			else if (map[i][j] == 'E')
@@ -39,7 +39,7 @@ int	check_map_elements(char **map, int *e, int *p, int c)
 	return (c);
 }
 
-int	check_map_struct(char **map)
+static int	check_map_struct(char **map)
 {
 	int	i;
 	int	width;
@@ -51,13 +51,13 @@ int	check_map_struct(char **map)
 	{
 		len = ft_strlen(map[i]);
 		if (len != width)
-			return (ft_putstr_fd("Unbalanced structure.\n", 2), 0);
+			return (ft_putstr_fd("Unbalanced structure.\n", 2, NULL), 0);
 		i++;
 	}
 	return (1);
 }
 
-int	check_map_border(char **map)
+static int	check_map_border(char **map)
 {
 	int	i;
 	int	width;
@@ -71,14 +71,14 @@ int	check_map_border(char **map)
 	while (i < width)
 	{
 		if (map[0][i] != '1' || map[height - 1][i] != '1')
-			return (ft_putstr_fd("ERROR: Border is not closed!\n", 2), 0);
+			return (ft_putstr_fd("ERROR: Border is not closed!\n", 2, NULL), 0);
 		i++;
 	}
 	i = 0;
 	while (i < height)
 	{
 		if (map[i][0] != '1' || map[i][width - 1] != '1')
-			return (ft_putstr_fd("ERROR: Border is not closed!\n", 2), 0);
+			return (ft_putstr_fd("ERROR: Border is not closed!\n", 2, NULL), 0);
 		i++;
 	}
 	return (1);
@@ -97,12 +97,8 @@ char	**check_map(char **map)
 	check_map_border(map);
 	is_path_valid(map);
 	count_c = check_map_elements(map, &count_e, &count_p, count_c);
-	if (count_c < 1)
-		ft_putstr_fd("Must 1(P) 1(E) >1(C)\n", 2);
-	else if (count_p != 1)
-		ft_putstr_fd("Must 1(P) 1(E) >1(C)\n", 2);
-	else if (count_e != 1)
-		ft_putstr_fd("Must 1(P) 1(E) >1(C)\n", 2);
+	if (count_c < 1 || count_p != 1 || count_e != 1)
+		ft_putstr_fd("Must 1(P) 1(E) >1(C)\n", 2, NULL);
 	create_game(map, 0);
 	return (map);
 }

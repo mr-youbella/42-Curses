@@ -6,7 +6,7 @@
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:10:16 by youbella          #+#    #+#             */
-/*   Updated: 2025/04/05 19:52:30 by youbella         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:56:58 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ void	file_image(t_data *data)
 	if (!data->wall || !data->steve_up || !data->steve_down \
 		|| !data->steve_left || !data->steve_right || !data->xp || \
 		!data->door || !data->open_door || !data->background)
-		ft_putstr_fd("Img not found\n", 2);
+		ft_putstr_fd("Img not found\n", 2, data);
 }
 
-void	put_image(void	*img, t_data *data, int width, int height)
+static void	put_image(void	*img, t_data *data, int width, int height)
 {
 	mlx_put_image_to_window(data->mlx, data->win, img, width * 64, height * 64);
 }
 
-void	put_image_to_map(t_data *data, int width, int height)
+static void	put_image_to_map(t_data *data, int width, int height)
 {
 	if (data->map[height][width] == 'P')
 	{

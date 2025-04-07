@@ -6,7 +6,7 @@
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 17:41:25 by youbella          #+#    #+#             */
-/*   Updated: 2025/04/06 17:43:38 by youbella         ###   ########.fr       */
+/*   Updated: 2025/04/07 16:19:50 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	**copy_map(char **map)
 	i = 0;
 	while (map[i])
 		i++;
-	copy = malloc(sizeof(char *) * (i + 1));
+	copy = malloc((i + 1) * sizeof(char *));
 	if (!copy)
 		return (NULL);
 	i = 0;
@@ -78,10 +78,7 @@ static int	has_unreachable_items(char **copy)
 		while (copy[y][x])
 		{
 			if (copy[y][x] == 'C' || copy[y][x] == 'E')
-			{
-				ft_putstr_fd("Map path invalid: C or E unreachable\n", 2);
 				return (1);
-			}
 			x++;
 		}
 		y++;
@@ -104,6 +101,7 @@ int	is_path_valid(char **map)
 		while (copy[i])
 			free(copy[i++]);
 		free(copy);
+		ft_putstr_fd("Map path invalid: C or E unreachable\n", 2, NULL);
 		return (0);
 	}
 	while (copy[i])
