@@ -6,7 +6,7 @@
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 17:43:00 by youbella          #+#    #+#             */
-/*   Updated: 2025/04/07 16:00:30 by youbella         ###   ########.fr       */
+/*   Updated: 2025/04/08 20:22:53 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,6 @@ int		animation_loop(t_data *data);
 int		key_press(int keycode, t_data *data);
 int		check_map_elements(char **map, int *e, int *p, int c);
 int		is_path_valid(char **map);
+int		is_path_valid_2(char **map);
 
 #endif

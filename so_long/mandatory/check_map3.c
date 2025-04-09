@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_extra_map.c                                  :+:      :+:    :+:   */
+/*   check_map3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/06 17:41:25 by youbella          #+#    #+#             */
-/*   Updated: 2025/04/07 16:19:50 by youbella         ###   ########.fr       */
+/*   Created: 2025/04/08 20:19:39 by youbella          #+#    #+#             */
+/*   Updated: 2025/04/08 20:21:28 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	flood_fill(char **map, int x, int y)
 {
-	if (map[y][x] == '1' || map[y][x] == 'V')
+	if (map[y][x] == '1' || map[y][x] == 'E' || map[y][x] == 'V')
 		return ;
 	map[y][x] = 'V';
 	flood_fill(map, x + 1, y);
@@ -44,7 +44,7 @@ static char	**copy_map(char **map)
 	return (copy);
 }
 
-static void	find_player_and_fill(char **copy)
+static void	find_player(char **copy)
 {
 	int	x;
 	int	y;
@@ -66,7 +66,7 @@ static void	find_player_and_fill(char **copy)
 	}
 }
 
-static int	has_unreachable_items(char **copy)
+static int	check_item(char **copy)
 {
 	int	x;
 	int	y;
@@ -77,7 +77,7 @@ static int	has_unreachable_items(char **copy)
 		x = 0;
 		while (copy[y][x])
 		{
-			if (copy[y][x] == 'C' || copy[y][x] == 'E')
+			if (copy[y][x] == 'C')
 				return (1);
 			x++;
 		}
@@ -86,7 +86,7 @@ static int	has_unreachable_items(char **copy)
 	return (0);
 }
 
-int	is_path_valid(char **map)
+int	is_path_valid_2(char **map)
 {
 	char	**copy;
 	int		i;
@@ -95,8 +95,8 @@ int	is_path_valid(char **map)
 	copy = copy_map(map);
 	if (!copy)
 		return (0);
-	find_player_and_fill(copy);
-	if (has_unreachable_items(copy))
+	find_player(copy);
+	if (check_item(copy))
 	{
 		while (copy[i])
 			free(copy[i++]);

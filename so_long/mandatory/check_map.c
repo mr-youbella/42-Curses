@@ -6,7 +6,7 @@
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 09:57:47 by youbella          #+#    #+#             */
-/*   Updated: 2025/04/07 15:55:49 by youbella         ###   ########.fr       */
+/*   Updated: 2025/04/08 20:22:38 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,11 @@ char	**check_map(char **map)
 	count_c = 0;
 	check_map_struct(map);
 	check_map_border(map);
-	is_path_valid(map);
 	count_c = check_map_elements(map, &count_e, &count_p, count_c);
 	if (count_c < 1 || count_p != 1 || count_e != 1)
 		ft_putstr_fd("Must 1(P) 1(E) >1(C)\n", 2, NULL);
+	is_path_valid(map);
+	is_path_valid_2(map);
 	create_game(map, 0);
 	return (map);
 }

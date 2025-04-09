@@ -6,7 +6,7 @@
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 23:58:38 by youbella          #+#    #+#             */
-/*   Updated: 2025/03/30 00:48:17 by youbella         ###   ########.fr       */
+/*   Updated: 2025/04/09 22:21:39 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ char	*ft_itoa(int n)
 	if (n < 0)
 		digit++;
 	p = malloc(digit + 1);
-	p[digit] = 0;
 	if (!p)
 		return (NULL);
+	p[digit] = 0;
 	if (n < 0)
 	{
 		p[0] = '-';
