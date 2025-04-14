@@ -6,7 +6,7 @@
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 01:28:06 by youbella          #+#    #+#             */
-/*   Updated: 2025/04/11 15:51:57 by youbella         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:55:54 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,9 @@ void	r(t_stack **stack_a, t_stack **stack_b, int op)
 		ra(stack_a);
 		rb(stack_b);
 	}
-	rra(stack_a);
-	rrb(stack_b);
+	else
+	{
+		rra(stack_a);
+		rrb(stack_b);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 00:14:08 by youbella          #+#    #+#             */
-/*   Updated: 2025/04/11 21:28:19 by youbella         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:54:55 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static char	**ft_scanf(t_stack **stack_a, char *join_op, char **all_op)
 		if (!check_op(op))
 		{
 			free(op);
+			free(all_op);
 			ft_putstr_fd("Error\n", 2, NULL, stack_a);
 		}
 		join_op = ft_strjoin(join_op, op);

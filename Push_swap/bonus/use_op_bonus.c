@@ -6,7 +6,7 @@
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:52:49 by youbella          #+#    #+#             */
-/*   Updated: 2025/04/11 15:56:07 by youbella         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:55:36 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	check_op(char *op)
 	if (ft_strncmp(op, "sa\n", 3) && ft_strncmp(op, "sb\n", 3) \
 		&& ft_strncmp(op, "ss\n", 3) && ft_strncmp(op, "pa\n", 3) \
 		&& ft_strncmp(op, "pb\n", 3) && ft_strncmp(op, "ra\n", 3) \
-		&& ft_strncmp(op, "rb\n", 3) && ft_strncmp(op, "ra\n", 3) \
+		&& ft_strncmp(op, "rb\n", 3) && ft_strncmp(op, "rr\n", 3) \
 		&& ft_strncmp(op, "rra\n", 4) && ft_strncmp(op, "rrb\n", 4) \
 		&& ft_strncmp(op, "rrr\n", 4))
 		return (0);

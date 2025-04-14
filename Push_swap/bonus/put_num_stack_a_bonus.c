@@ -6,7 +6,7 @@
 /*   By: youbella <youbella@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:20:51 by youbella          #+#    #+#             */
-/*   Updated: 2025/04/10 16:41:38 by youbella         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:54:01 by youbella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	full_stack_a(t_stack **stack_a, int argc, char **argv)
 		{
 			if (!is_duplicate(ft_atoi(numbers[j]), *stack_a))
 				ft_putstr_fd("Error\n", 2, numbers, stack_a);
-			temp = ft_lstnew(atoi(numbers[j]));
+			temp = ft_lstnew(ft_atoi(numbers[j]));
 			if (!temp)
 				ft_putstr_fd("Error\n", 2, numbers, stack_a);
 			ft_lstadd_back(stack_a, temp);
